@@ -13,6 +13,7 @@ const Chat = ({ selectedUser }) => {
   const { data } = useContext(ChatContext);
   const [selectedUserMessage, setSelectedUserMessage] = useState()
   const [filteredMessage, setFilteredMessage] = useState()
+  const [callMessageApiAgain, setCallMessageApiAgain] = useState(false)
 
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const Chat = ({ selectedUser }) => {
       console.error(error);
     });
 
-  }, [selectedUser])
+  }, [selectedUser, callMessageApiAgain])
 
   useEffect(() => {
     let filtermessage = [];
@@ -43,9 +44,10 @@ const Chat = ({ selectedUser }) => {
       for (const [key, value] of Object.entries(selectedUserMessage[1])) {
         filtermessage.push(value)
       }
+    const SortingFiltermessage = filtermessage.sort((a, b) => { return a.messageTime - b.messageTime })
     setFilteredMessage(filtermessage)
-    console.log('filtermessage', filtermessage);
-  }, [selectedUserMessage])
+    console.log('filtermessage', SortingFiltermessage);
+  }, [selectedUserMessage, callMessageApiAgain])
 
 
   return (
@@ -59,7 +61,7 @@ const Chat = ({ selectedUser }) => {
         </div>
       </div>
       <Messages filteredMessage={filteredMessage} />
-      <Input />
+      <Input selectedUserMessage={selectedUserMessage} setCallMessageApiAgain={setCallMessageApiAgain} callMessageApiAgain={callMessageApiAgain} selectedUser={selectedUser} />
     </div>
   );
 };

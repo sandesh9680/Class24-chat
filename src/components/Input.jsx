@@ -11,18 +11,22 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "../firebase";
-import { v4 as uuid } from "uuid";
+import { v4 } from "uuid";
 import { getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { getDatabase, ref, set } from "firebase/database";
 
 const dbRef = ref(getDatabase());
 
-const Input = () => {
+const Input = ({ selectedUserMessage, setCallMessageApiAgain, callMessageApiAgain, selectedUser }) => {
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
 
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
+
+  console.log('selectedUserMessage+++', selectedUserMessage?.length > 0 && selectedUserMessage)
+
+
 
   const handleSend = async () => {
     // if (img) {
@@ -70,18 +74,34 @@ const Input = () => {
     //   },
     //   [data.chatId + ".date"]: serverTimestamp(),
     // });
+    const msgid = v4()
+    const db = getDatabase();
+    selectedUser?.id &&
+      set(ref(db, 'supportChat/messages/' + selectedUser?.id + '/'), [null, selectedUserMessage?.length > 0 ? {
+        ...selectedUserMessage[1],
+        [msgid]: {
+          message: text,
+          messageId: msgid,
+          messageTime: new Date().getTime(),
+          messageType: '2',
+          senderName: 'Admin',
+          userImage: ''
+        }
+      } : {
+        [msgid]: {
+          message: text,
+          messageId: msgid,
+          messageTime: new Date().getTime(),
+          messageType: '2',
+          senderName: 'Admin',
+          userImage: ''
+        }
+      }]).then((res) => {
+        console.log("api res", res);
+        setCallMessageApiAgain(!callMessageApiAgain)
+      }).catch((err) => { console.log("error", err); })
 
-    function writeUserData(userId, name, email, imageUrl) {
-      const db = getDatabase();
-      set(ref(db, 'supportChat/messages' + userId), {
-        message: text,
-        messageId: 'sdsdsd',
-        messageTime: Timestamp.now(),
-        messageType: '2',
-        senderName: 'Admin',
-        userImage: ''
-      });
-    }
+
 
     setText("");
     setImg(null);

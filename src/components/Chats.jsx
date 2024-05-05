@@ -19,14 +19,14 @@ const Chats = ({ selectedUser }) => {
   useEffect(() => {
     get(child(dbRef, `supportChat/messages`)).then((snapshot) => {
       if (snapshot.exists()) {
-        // console.log('alldata.admin messages', snapshot.val());
+        console.log('alldata.admin messages', snapshot.val());
         let userMessageArray = [];
         for (const [key, value] of Object.entries(snapshot.val())) {
           if (selectedUser && key == selectedUser?.id) {
             userMessageArray.push(value)
           }
         }
-        console.log("userMessageArray", userMessageArray[0] && userMessageArray[0][1]);
+        // console.log("userMessageArray", snapshot.val());
         userMessageArray[0] && setSelectedUserMessage(userMessageArray[0])
       } else {
         console.log("No data available");

@@ -1,48 +1,89 @@
 import { doc, onSnapshot } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+// import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { db } from "../firebase";
+import { getDatabase, ref, child, get } from "firebase/database";
 
-const Chats = () => {
+const dbRef = ref(getDatabase());
+
+const Chats = ({ selectedUser }) => {
   const [chats, setChats] = useState([]);
 
-  const { currentUser } = useContext(AuthContext);
+
   const { dispatch } = useContext(ChatContext);
+  const [selectedUserMessage, setSelectedUserMessage] = useState()
+  const [filteredMessage, setFilteredMessage] = useState()
+
 
   useEffect(() => {
-    const getChats = () => {
-      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
-        setChats(doc.data());
-      });
+    get(child(dbRef, `supportChat/messages`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        // console.log('alldata.admin messages', snapshot.val());
+        let userMessageArray = [];
+        for (const [key, value] of Object.entries(snapshot.val())) {
+          if (selectedUser && key == selectedUser?.id) {
+            userMessageArray.push(value)
+          }
+        }
+        console.log("userMessageArray", userMessageArray[0] && userMessageArray[0][1]);
+        userMessageArray[0] && setSelectedUserMessage(userMessageArray[0])
+      } else {
+        console.log("No data available");
+      }
 
-      return () => {
-        unsub();
-      };
-    };
+    }).catch((error) => {
+      console.error(error);
+    });
 
-    currentUser.uid && getChats();
-  }, [currentUser.uid]);
+  }, [selectedUser])
 
-  const handleSelect = (u) => {
-    dispatch({ type: "CHANGE_USER", payload: u });
-  };
+  useEffect(() => {
+    let filtermessage = [];
+    if (selectedUserMessage && selectedUserMessage?.length > 0)
+      for (const [key, value] of Object.entries(selectedUserMessage[1])) {
+        filtermessage.push(value)
+      }
+    setFilteredMessage(filtermessage)
+    console.log('filtermessage', filtermessage);
+  }, [selectedUserMessage])
+
+  // useEffect(() => {
+  //   const getChats = () => {
+  //     const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+  //       setChats(doc.data());
+  //     });
+
+  //     return () => {
+  //       unsub();
+  //     };
+  //   };
+
+  //   currentUser.uid && getChats();
+  // }, [currentUser.uid]);
+
+  // const handleSelect = (u) => {
+  //   dispatch({ type: "CHANGE_USER", payload: u });
+  // };
 
   return (
     <div className="chats">
-      {Object.entries(chats)?.sort((a,b)=>b[1].date - a[1].date).map((chat) => (
-        <div
-          className="userChat"
-          key={chat[0]}
-          onClick={() => handleSelect(chat[1].userInfo)}
-        >
-          <img src={chat[1].userInfo.photoURL} alt="" />
-          <div className="userChatInfo">
-            <span>{chat[1].userInfo.displayName}</span>
-            <p>{chat[1].lastMessage?.text}</p>
-          </div>
-        </div>
-      ))}
+      {/* {
+        filteredMessage?.map((msg) => {
+          return (
+            <div
+              className="userChat"
+              key={msg.messageId}
+            >
+              <img src={msg.userImage} alt="" />
+              <div className="userChatInfo">
+                <span>{msg.senderName}</span>
+                <p>{msg.message}</p>
+              </div>
+            </div>
+          )
+        })
+      } */}
     </div>
   );
 };

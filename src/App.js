@@ -32,7 +32,7 @@ function App() {
   useEffect(() => {
     get(child(dbRef, `supportChat/admin`)).then((snapshot) => {
       if (snapshot.exists()) {
-        console.log(snapshot.val());
+        // console.log(snapshot.val());
         localStorage.setItem('adminData', JSON.stringify(snapshot.val()[1]))
       } else {
         console.log("No data available");

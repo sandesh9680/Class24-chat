@@ -24,7 +24,7 @@ const Input = ({ selectedUserMessage, setCallMessageApiAgain, callMessageApiAgai
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
-  console.log('selectedUserMessage+++', selectedUserMessage?.length > 0 && selectedUserMessage)
+  // console.log('selectedUserMessage+++', selectedUserMessage?.length > 0 && selectedUserMessage)
 
 
 
@@ -97,7 +97,7 @@ const Input = ({ selectedUserMessage, setCallMessageApiAgain, callMessageApiAgai
           userImage: ''
         }
       }]).then((res) => {
-        console.log("api res", res);
+        // console.log("api res", res);
         setCallMessageApiAgain(!callMessageApiAgain)
       }).catch((err) => { console.log("error", err); })
 
@@ -115,16 +115,16 @@ const Input = ({ selectedUserMessage, setCallMessageApiAgain, callMessageApiAgai
         value={text}
       />
       <div className="send">
-        <img src={Attach} alt="" />
-        <input
+        {/* <img src={Attach} alt="" /> */}
+        {/* <input
           type="file"
           style={{ display: "none" }}
           id="file"
           onChange={(e) => setImg(e.target.files[0])}
-        />
-        <label htmlFor="file">
+        /> */}
+        {/* <label htmlFor="file">
           <img src={Img} alt="" />
-        </label>
+        </label> */}
         <button onClick={handleSend}>Send</button>
       </div>
     </div>

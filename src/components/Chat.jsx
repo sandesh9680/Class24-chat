@@ -26,7 +26,7 @@ const Chat = ({ selectedUser }) => {
             userMessageArray.push(value)
           }
         }
-        console.log("userMessageArray", userMessageArray[0] && userMessageArray[0][1]);
+        // console.log("userMessageArray", userMessageArray[0] && userMessageArray[0][1]);
         userMessageArray[0] && setSelectedUserMessage(userMessageArray[0])
       } else {
         console.log("No data available");
@@ -46,7 +46,7 @@ const Chat = ({ selectedUser }) => {
       }
     const SortingFiltermessage = filtermessage.sort((a, b) => { return a.messageTime - b.messageTime })
     setFilteredMessage(filtermessage)
-    console.log('filtermessage', SortingFiltermessage);
+    // console.log('filtermessage', SortingFiltermessage);
   }, [selectedUserMessage, callMessageApiAgain])
 
 

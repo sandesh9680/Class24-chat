@@ -4,14 +4,7 @@ import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 import { getDatabase } from "firebase/database";
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyA470uINCpszKFHHtF3tRD9IKXo7a9H0rs",
-//   authDomain: "react-chat-1b663.firebaseapp.com",
-//   projectId: "react-chat-1b663",
-//   storageBucket: "react-chat-1b663.appspot.com",
-//   messagingSenderId: "625325689341",
-//   appId: "1:625325689341:web:11f628fe5de8f4f3d8b194"
-// };
+
 
 
 // class24 

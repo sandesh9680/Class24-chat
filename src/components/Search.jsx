@@ -123,7 +123,7 @@ const Search = ({ setSelectedUserState }) => {
         user.map((data) => {
           return (
             <div className="userChat" onClick={() => { handleSelectUser(data) }}>
-              <img src={data.userImage} alt="" />
+              <img src={data.userImage ? data.userImage : 'https://www.jrfadda.com/assets/backend/dist/img/user-200.png'} alt="" />
               <div className="userChatInfo">
                 <span>{data.userName}</span>
               </div>

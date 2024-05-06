@@ -19,7 +19,7 @@ const Chats = ({ selectedUser }) => {
   useEffect(() => {
     get(child(dbRef, `supportChat/messages`)).then((snapshot) => {
       if (snapshot.exists()) {
-        console.log('alldata.admin messages', snapshot.val());
+        // console.log('alldata.admin messages', snapshot.val());
         let userMessageArray = [];
         for (const [key, value] of Object.entries(snapshot.val())) {
           if (selectedUser && key == selectedUser?.id) {
@@ -45,7 +45,7 @@ const Chats = ({ selectedUser }) => {
         filtermessage.push(value)
       }
     setFilteredMessage(filtermessage)
-    console.log('filtermessage', filtermessage);
+    // console.log('filtermessage', filtermessage);
   }, [selectedUserMessage])
 
   // useEffect(() => {

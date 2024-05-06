@@ -54,7 +54,7 @@ const Search = ({ setSelectedUserState }) => {
       setUser(userList)
     } else {
       // console.log("user++++", user);
-      const q = user?.filter((item) => item?.userName?.includes(name));
+      const q = user?.filter((item) => item?.userName?.toLowerCase().includes(name.toLowerCase()));
       // console.log("qqq", q);
       setUser(q);
     }
@@ -110,8 +110,9 @@ const Search = ({ setSelectedUserState }) => {
 
   return (
     <div className="search">
-      <div className="searchForm">
+      <div className="searchForm" style={{ backgroundColor: 'white' }}>
         <input
+          style={{ color: 'black' }}
           type="text"
           placeholder="Find a user"
           onChange={(e) => { setUsername(e.target.value); handleSearch(e.target.value) }}
@@ -122,9 +123,9 @@ const Search = ({ setSelectedUserState }) => {
       {user && (
         user.map((data) => {
           return (
-            <div className="userChat" onClick={() => { handleSelectUser(data) }}>
+            <div className="userChat" style={selectedUser?.userName == data.userName ? { backgroundColor: '#4741cf' } : {}} onClick={() => { handleSelectUser(data) }} >
               <img src={data.userImage ? data.userImage : 'https://www.jrfadda.com/assets/backend/dist/img/user-200.png'} alt="" />
-              <div className="userChatInfo">
+              <div className="userChatInfo" >
                 <span>{data.userName}</span>
               </div>
             </div>

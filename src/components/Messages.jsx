@@ -23,7 +23,9 @@ const Messages = ({ filteredMessage }) => {
   return (
     <div className="messages">
       {filteredMessage?.map((m) => (
-        <Message message={m} key={m.id} />
+        <>
+          <Message message={m} key={m.id} />
+        </>
       ))}
     </div>
   );

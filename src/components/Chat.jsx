@@ -26,8 +26,8 @@ const Chat = ({ selectedUser }) => {
             userMessageArray.push(value)
           }
         }
-        // console.log("userMessageArray", userMessageArray[0] && userMessageArray[0][1]);
-        userMessageArray[0] && setSelectedUserMessage(userMessageArray[0])
+        // console.log("userMessageArray+++", userMessageArray[0] && userMessageArray[0][1]);
+        userMessageArray[0] ? setSelectedUserMessage(userMessageArray[0]) : setSelectedUserMessage()
       } else {
         console.log("No data available");
       }
@@ -36,7 +36,7 @@ const Chat = ({ selectedUser }) => {
       console.error(error);
     });
 
-  }, [selectedUser, callMessageApiAgain])
+  }, [selectedUser, callMessageApiAgain, selectedUser])
 
   useEffect(() => {
     let filtermessage = [];
@@ -45,9 +45,9 @@ const Chat = ({ selectedUser }) => {
         filtermessage.push(value)
       }
     const SortingFiltermessage = filtermessage.sort((a, b) => { return a.messageTime - b.messageTime })
-    setFilteredMessage(filtermessage)
+    filtermessage.length > 0 ? setFilteredMessage(filtermessage) : setFilteredMessage(null)
     // console.log('filtermessage', SortingFiltermessage);
-  }, [selectedUserMessage, callMessageApiAgain])
+  }, [selectedUserMessage, callMessageApiAgain, selectedUser])
 
 
   return (
